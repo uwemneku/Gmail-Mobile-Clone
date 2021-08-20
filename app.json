@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "GmailClone",
+    "slug": "GmailClone",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "GmailClone"
+}
