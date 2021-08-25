@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FlatList, StyleSheet, View, Animated as Test } from 'react-native'
-import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, diffClamp, useAnimatedScrollHandler, runOnJS, withSpring } from 'react-native-reanimated';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useAnimatedScrollHandler, withSpring } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import EmailSnippet from '../componenets/EmailSnippet'
 import SecondaryHeader from '../componenets/SecondaryHeader';
-import { disableEmailSelection, enableEmailSelection } from '../reducers/selectEmailsSlice';
 import PrimaryHeader from '../componenets/PrimaryHeader';
-import Avatar from '../componenets/Avatar';
 import Typography from '../componenets/Typography';
 import { Ionicons } from '@expo/vector-icons';
-import Toast from '../componenets/Toast';
 import { PortalHost, PortalProvider } from '@gorhom/portal';
 
 
@@ -19,6 +15,7 @@ const Emails = () => {
     const [emails, setEmails] = useState(allEmails)
     const translateY = useSharedValue(0)
     const FABwidth = useSharedValue(0)
+    const animateValue = useSharedValue(0)
     const clamp = (value, lowerBound, upperBound) => {
         "worklet";
         return Math.min(Math.max(lowerBound, value), upperBound);
@@ -64,8 +61,10 @@ const Emails = () => {
 
     return (
         <View style={styles.container}  >
-            <PortalProvider>
-            <SecondaryHeader />
+        <PortalProvider>
+            <View style={{position:'absolute', width:'100%', zIndex:3000000}}>
+                <SecondaryHeader />
+            </View>
             <Animated.View style={[styles.header, animatedHeaderStyle]}>
                 <PrimaryHeader />
             </Animated.View>
@@ -107,9 +106,8 @@ const Emails = () => {
                     </Animated.View>
                 </Animated.View>
                 <PortalHost name="FAB" />
-                {/* <Toast /> */}
             </View>
-            </PortalProvider>
+        </PortalProvider>
         </View>
     )
 }

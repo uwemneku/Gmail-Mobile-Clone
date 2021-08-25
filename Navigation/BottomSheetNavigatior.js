@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Emails from '../Screens/Emails'
 import { Ionicons } from '@expo/vector-icons';
-import ColorPropType from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
+import Meet from '../Screens/Meet';
 
 const BottomSheet = createBottomTabNavigator()
 
@@ -15,7 +15,7 @@ const Screens = [
     },
     {
         name:'Meet',
-        component: Emails,
+        component: Meet,
         icon: (color) => <Ionicons name="videocam-outline" size={35} color={color} />
     }
 ]

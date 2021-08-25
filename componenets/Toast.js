@@ -1,19 +1,29 @@
-import React, { useEffect, useRef } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withSequence, withSpring } from 'react-native-reanimated'
+import React, { useEffect, useRef, useState } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import Typography from './Typography'
-import {archiveMail, unArchiveMail} from '../reducers/recievedEmailSlice'
+import {archiveMail} from '../reducers/recievedEmailSlice'
 import { useDispatch } from 'react-redux'
 
+/**
+ * @param {object} props
+ * @param {Animated.SharedValue<number>} props.xValue Animated value of the EmailSnippet componenet that was swiped
+ * @param {Animated.SharedValue<number>} props.yValue Animated value of the EmailSnippet componenet that was swiped
+ * @param {string} props.id ID of the email of the EmailSnippet component 
+*/
 const Toast = ({xValue, yValue, id}) => {
+    const [message, setMessage] = useState('Email has been achrived')
     const dispact = useDispatch()
     const translateY = useSharedValue(0)
-    const isUndoClicked = useRef(false)
+    const isUndoClicked = useRef(false) //If true the emailsnippet displaying this toast message is unmounted
+  
     const handleAction = () => { 
+        setMessage('Removed from achrive')
         xValue.value = 0
         yValue.value = 0
         isUndoClicked.current = true
     }
+   
     const animatedContainerstyles = useAnimatedStyle(()=>({
         marginBottom: withSpring(interpolate(
             translateY.value,
@@ -21,19 +31,22 @@ const Toast = ({xValue, yValue, id}) => {
             Extrapolate.CLAMP
         ))
     }))
+  
     useEffect(() => {
         translateY.value = 1;
         return () => {
+            //This action changes the acrchive state of the email and unmount its Emailsnippet component
             !isUndoClicked.current && dispact(archiveMail(id))
         }
     }, [])
+ 
     return (
         <Animated.View style={[styles.container, animatedContainerstyles]} >
             <View style={styles.content} >
-                <Typography text='Email has been achrived' />
-                <Pressable onPress = {handleAction} >
+                <Typography text={message} />
+                <TouchableOpacity onPress = {handleAction} style={{paddingHorizontal:15, backgroundColor:'white'}} >
                     <Typography text='Undo' bold />
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </Animated.View>
     )

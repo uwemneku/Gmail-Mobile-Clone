@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Avatar from './Avatar'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import UserAvatar from './UserAvatar';
 
 const PrimaryHeader = () => {
     const navigation = useNavigation()
@@ -12,7 +13,7 @@ const PrimaryHeader = () => {
                 <TouchableOpacity onPress={()=>{navigation.openDrawer(); console.log('trying ')}} >
                     <Ionicons name="menu" size={24} color="black" />
                 </TouchableOpacity>
-                <Avatar size={30} />
+                <UserAvatar />
             </View>
         </View>
     )

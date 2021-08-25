@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import RootNavigator from './Navigation/RootNavigator';
 import DrawerNavigation from './Navigation/DrawerNavigation';
+import AccountsModal from './componenets/AccountsModal';
 
 export default function App() {
   return (

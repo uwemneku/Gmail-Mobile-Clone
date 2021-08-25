@@ -33,10 +33,10 @@ const EmailAvatar = ({isSelected}) => {
             <Animated.View style={[styles.container, animatedContainerStyle]} >
                 <View style={styles.avatar}>
                         <Animated.View style={avatarContainer} >
-                            <Avatar size={60} />
+                            <Avatar size={50} />
                         </Animated.View>
                         <View style={[styles.content]} >
-                            <Avatar size={60} text='loo' bgColor='white' />
+                            <Avatar size={50} text='loo' bgColor='white' />
                         </View>
                 </View>
             </Animated.View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         borderRadius:100,
         position:'absolute',
         zIndex:-1,
-        backgroundColor:'green',
+        // backgroundColor:'green',
         justifyContent:'center',
         alignItems:'center',
         transform:[{rotateY:'180deg'}]

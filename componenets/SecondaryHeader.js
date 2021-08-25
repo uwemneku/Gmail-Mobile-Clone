@@ -9,17 +9,20 @@ import { Ionicons } from '@expo/vector-icons';
 
 const SecondaryHeader = () => {
     const animateValue = useSharedValue(0)
-    const canSelectEmails = useSelector(state => state.selectEmailSlice.value)
     const selectedEmails = useSelector(state => state.selectEmailSlice.selectedEmails)
     const dispatch = useDispatch()
 
     const animtedHeaderStyle = useAnimatedStyle(()=>({
-        transform:[{translateY: interpolate(
-                animateValue.value,
-                [0, 1], [-100, 0],
-                Extrapolate.CLAMP
-            )
-        }]
+        // transform:[{translateY: interpolate(
+        //         animateValue.value,
+        //         [0, 1], [-100, 0],
+        //         Extrapolate.CLAMP
+        //     )
+        // }]
+        marginTop: interpolate(
+                    animateValue.value,
+                    [0, 1], [-100, 0],
+                    Extrapolate.CLAMP)
     }))
 
     /*
@@ -52,12 +55,10 @@ const SecondaryHeader = () => {
     }, [selectedEmails])
 
     return (
-        <View style={styles.container} >
             <Animated.View View style={[styles.hidden, animtedHeaderStyle]}>
                 <Ionicons name="arrow-back-outline" size={24} color="black" />
                 <Avatar  size={40} text={`${selectedEmails.length}`} />
             </Animated.View>
-        </View>
     )
 }
 
@@ -66,14 +67,10 @@ export default React.memo(SecondaryHeader)
 const styles = StyleSheet.create({
     container:{
         position:'relative',
-        backgroundColor: 'red',
-        position:'absolute',
         width:'100%',
-        zIndex:3000,
     },
     hidden:{
         backgroundColor:'yellow',
-        position:'absolute',
         width:'100%',
         padding:20,
         paddingVertical:10,
