@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Pressable, StyleSheet, View, BackHandler, Alert } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
 import { LongPressGestureHandler,  PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import {deselectEmail, selectEmail} from '../reducers/selectEmailsSlice'
+import {deselectEmail, selectEmail } from '../reducers/selectEmailsSlice'
 import {unStarMail, starMail} from '../reducers/recievedEmailSlice'
 import EmailAvatar from './EmailAvatar'
 import Typography from './Typography'
 import { Ionicons } from '@expo/vector-icons';
 import Toast from './Toast'
+import { Portal } from '@gorhom/portal'
 
 const r = Dimensions.get('window').width / 2.5
 const w = Dimensions.get('window').width
 
 const EmailSnippet = ({id, name, subject, preview, time, selected, starred, archived}) => {
     const [isSelected, setIsSelected] = useState(false)
+    const [showToast, setShowToast] = useState(false)
     const canSelectEmails = useSelector(state => state.selectEmailSlice.value)
     const dispatch = useDispatch()
     
     const x = useSharedValue(0)
     const y = useSharedValue(0)
+
+    // This function shos the undo alert for 3secs
+    //If undo is not clicked, this component is unmounted
+    //The unmounting action is carried out in the Toast component
+    const toggleToast = () => {
+        setShowToast(true)
+        setTimeout(() => {
+            setShowToast(false)
+        }, 3000);
+    }
 
     const gestureHandler = useAnimatedGestureHandler({
         onStart: (_, ctx) => {
@@ -37,6 +49,7 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
             if(x.value > r){
                 x.value = withSpring(w, {overshootClamping:true});
                 y.value = 1
+                runOnJS(toggleToast)()
                 
             }
             else{
@@ -66,13 +79,9 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
     }, [isSelected])
    
     useEffect(() => {
-        if(archived){
-
-        } else {
-            x.value = 0
-            y.value = 0
-        }
-    }, [archived])
+        console.log('mounted');
+        return () => console.log('unmounted'); 
+    }, [])
 
 
     const animatedStyle = useAnimatedStyle(()=>({
@@ -111,6 +120,9 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
                                         color={starred ? "gold" : "black"} 
                                     />
                                 </Pressable>
+                                <Portal hostName="FAB" >
+                                { showToast && <Toast id={id} xValue={x} yValue={y} />   }  
+                             </Portal>
                             </View>
                         </Animated.View>
                     </View>

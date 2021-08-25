@@ -162,6 +162,7 @@ export const slice = createSlice({
             const index = state.value.findIndex(mail => mail.id == mailId)
             const mail = state.value[index]
             state.value.splice(index, 1, {...mail, archived:true})
+            console.log(state.value[index]);
         },
         unArchiveMail: (state, action) => {
             const mailId = action.payload

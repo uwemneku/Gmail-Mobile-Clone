@@ -11,25 +11,19 @@ import Avatar from '../componenets/Avatar';
 import Typography from '../componenets/Typography';
 import { Ionicons } from '@expo/vector-icons';
 import Toast from '../componenets/Toast';
+import { PortalHost, PortalProvider } from '@gorhom/portal';
 
 
 const Emails = () => {
     const allEmails = useSelector(state => state.recievedEmailSlice.value)
     const [emails, setEmails] = useState(allEmails)
-    const [toastStatus, setToastStatus] = useState(true)
     const translateY = useSharedValue(0)
     const FABwidth = useSharedValue(0)
     const clamp = (value, lowerBound, upperBound) => {
         "worklet";
         return Math.min(Math.max(lowerBound, value), upperBound);
       };
-    const showToast = useCallback(
-        () => {
-            
-        },
-        [],
-    )
-    // const diff = Test.diffClamp(translateY.value, 0, 70)
+   
     const animatedHeaderStyle = useAnimatedStyle(()=>({
         transform: [{
             translateY : interpolate(
@@ -70,6 +64,7 @@ const Emails = () => {
 
     return (
         <View style={styles.container}  >
+            <PortalProvider>
             <SecondaryHeader />
             <Animated.View style={[styles.header, animatedHeaderStyle]}>
                 <PrimaryHeader />
@@ -84,17 +79,22 @@ const Emails = () => {
                         />
                         }
                     data={allEmails}
-                    renderItem = {({item, index}) => 
-                        <EmailSnippet 
-                            id={item.id} 
-                            name={item.sender}
-                            subject={item.subject}
-                            preview={item.preview}
-                            time={item.time}
-                            selected={item.selected}
-                            starred={item.starred}
-                            archived = {item.archived}
-                        />
+                    renderItem = {({item, index}) => {
+                        if(!item.archived){
+                            return (
+                                <EmailSnippet 
+                                    id={item.id} 
+                                    name={item.sender}
+                                    subject={item.subject}
+                                    preview={item.preview}
+                                    time={item.time}
+                                    selected={item.selected}
+                                    starred={item.starred}
+                                    archived = {item.archived}
+                                />
+                            )
+                        }
+                    }
                     }
                     keyExtractor={(item, index) => index.toString()}
                 />
@@ -106,8 +106,10 @@ const Emails = () => {
                         <Typography text='Compose' textAlign='right' />
                     </Animated.View>
                 </Animated.View>
-                <Toast />
+                <PortalHost name="FAB" />
+                {/* <Toast /> */}
             </View>
+            </PortalProvider>
         </View>
     )
 }
@@ -137,7 +139,8 @@ const styles = StyleSheet.create({
     FAB:{
         right:20,
         height:50,
-        elevation:10,
+        elevation:5,
+        marginVertical:10,
         borderRadius:100,
         overflow:'hidden',
         alignItems:'center',
