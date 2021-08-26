@@ -7,16 +7,24 @@
 This is a simple clone of gmail andriod mobile application built with react native. The aim of this project is to make an attempt use react native to implement some of the app features such as 'swiping an email to archive it', 'animating a component when an email is selected', 'custom drawer contents' and many more.
 
 ## Feautures
-### The ones without a tick are yet to be implemented
+
 - [X] Users can swipe emails to archive it
 - [X] Emails snippets is animated back in when undo is clicked
 - [X] Email can be selected by long pressing
 - [X] Lottied animation files
-- []  When an email is opened users can view the next email by swipping left or right
+
+## Todo
+- [ ] When an email is opened users can view the next email by swipping left or right
+- [ ] Selected emails can be deselected when the back button is pressed
+- [ ] Add buttom sheet component to the MEET screen without using any NPM packages
+-[ ] Animate primary header when search bar is clicked
+
+## Helpful videos and articles:
+
+
 
 
 ### Built With
-
 
 * [React Native](https://reactnative.dev/)
 * [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
@@ -26,7 +34,7 @@ This is a simple clone of gmail andriod mobile application built with react nati
 
 <!-- GETTING STARTED -->
 ## Getting Started
-This app was build primarily with expo, it is an attempt to implement some of gmail's andriod app with react native.
+This app was build primarily with expo, it is an attempt to implement some of gmail's andriod app with react native. Animations are done with reanimated 2, to improve performance
 
 
 ### Prerequisites
