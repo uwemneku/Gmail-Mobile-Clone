@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import Avatar from './Avatar'
 import Typography from './Typography'
 
-const UserAccounts = () => {
+
+const EmailAccounts = () => {
     return (
         <View style={styles.container} >
             <Avatar size={40} />
@@ -15,7 +16,7 @@ const UserAccounts = () => {
     )
 }
 
-export default UserAccounts
+export default EmailAccounts
 
 const styles = StyleSheet.create({
     container:{

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { LongPressGestureHandler,  PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
@@ -15,27 +15,34 @@ import LottieView from 'lottie-react-native'
 import archiveLottie from '../lottie/archive.json'
 import { useNavigation } from '@react-navigation/native'
 
-const r = Dimensions.get('window').width / 2.5
-const w = Dimensions.get('window').width
+const halfScreenWidth = Dimensions.get('window').width / 2.5
+const fullScreenWidth = Dimensions.get('window').width
 
+/**
+ * This renders a snippet of the email on the Mail screen of the app.
+ * @param {object} props
+ * @param {string} props.id The ID of the email in the global store
+ * @param {string} props.name
+ * @param {string} props.subject
+ * @param {string} props.preview A snippet of the mail body
+ * @param {string} props.time
+ * @param {string} props.starred
+ * @param {string} props.archived
+*/
 const EmailSnippet = ({id, name, subject, preview, time, selected, starred, archived}) => {
     const [isSelected, setIsSelected] = useState(false)
-    const [showToast, setShowToast] = useState(false)
-    const canSelectEmails = useSelector(state => state.selectEmailSlice.value)
+    const [toastVisibility, setToastVisibility] = useState(false)
+    const canSelectEmails = useSelector(state => state.selectEmailSlice.value) // Controls if an email can be selected by pressing the email avatart
     const dispatch = useDispatch()
     const navigation = useNavigation()
     
     const x = useSharedValue(0)
     const y = useSharedValue(0)
 
-    // This function shows the undo alert for 3secs
-    // If undo is not clicked, this component is unmounted
-    // The unmounting action is carried out in the Toast component
+   //The state change is wrapped in this function to make if safe to
+   //be called from 'runOnJs' in the gestureHandler below
     const toggleToast = () => {
-        setShowToast(true)
-        setTimeout(() => {
-            setShowToast(false)
-        }, 3000);
+        setToastVisibility(true) 
     }
 
     const gestureHandler = useAnimatedGestureHandler({
@@ -51,8 +58,9 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
         
         onEnd: (_, ctx) => {
             console.log(_.velocityX);
-            if(x.value > r || Math.abs(_.velocityX) > 1550){
-                x.value = withSpring(w, {overshootClamping:true});
+            if(x.value > halfScreenWidth || Math.abs(_.velocityX) > 1550){
+                const n = x.value > -1 ?  fullScreenWidth : -fullScreenWidth
+                x.value = withSpring(n, {overshootClamping:true});
                 y.value = 1
                 runOnJS(toggleToast)()
                 
@@ -97,7 +105,7 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
     }))
     
     //actveOffsetX and activeOffsetY props are used to set when the pangesture is active
-    //and to allow for vertical gestures to be passed to the parent scroll view
+    //This alows vertical gestures to be passed to the parent scroll componenet
     return (
         <PanGestureHandler  activeOffsetX={[-50, 50]} activeOffsetY={[-1000, 1000]}  onGestureEvent={gestureHandler}>
             <Animated.View style={[styles.container, animatedContainerStyle]}>
@@ -135,11 +143,11 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
                             </Pressable>
 
                             {/* Begining of email details */}
-                            <Pressable onPress={()=>navigation.navigate('ViewEmail')} style={{padding:10,}} >
+                            <TouchableOpacity onPress={()=>navigation.navigate('ViewEmail')} style={{padding:10,}} >
                                 <Typography  text={name} bold />
                                 <Typography  text={subject} bold fontSize={14} />
                                 <Typography  text={preview} fontSize={12}  />
-                            </Pressable>
+                            </TouchableOpacity>
                             {/* End of email details*/}
                             
                             {/* Time and star icon starts here */}
@@ -157,7 +165,7 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
                         </Animated.View>
                         <Portal hostName="FAB" >
                             {/* The component is show in the parent portal provider (in Emails component) */}
-                            { showToast && <Toast id={id} xValue={x} yValue={y} />   }  
+                            { toastVisibility && <Toast toggleToast={setToastVisibility} id={id} xValue={x} yValue={y} />   }  
                         </Portal>
                     </View>
                 </LongPressGestureHandler>

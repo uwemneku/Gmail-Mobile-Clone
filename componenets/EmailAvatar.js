@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import Animated, { Easing, Extrapolate, interpolate, interpolateColor, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'
+import React, { useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
+import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Avatar from './Avatar'
-import Typography from './Typography'
 
+
+/**
+ * This component renders the avatar for all emails, when an email is selected it rotates to display a tick
+ * @param {object} propps 
+ * @param {boolean} props.isSelected Indicates if the email snippet rendering this component is selected 
+ */ 
 const EmailAvatar = ({isSelected}) => {
     const animateValue = useSharedValue(0)
-    
     
     useEffect(() => {
       animateValue.value = isSelected ? 1 : 0
     }, [isSelected])
     
-
     const animatedContainerStyle = useAnimatedStyle(()=>({
         transform: [{rotateY: withTiming(
                         interpolate(
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
         borderRadius:100,
         position:'absolute',
         zIndex:-1,
-        // backgroundColor:'green',
         justifyContent:'center',
         alignItems:'center',
         transform:[{rotateY:'180deg'}]

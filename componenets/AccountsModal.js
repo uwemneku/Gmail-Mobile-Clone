@@ -1,8 +1,7 @@
 import React from 'react'
 import { Dimensions, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Divider from './Divider'
-import Typography from './Typography'
-import UserAccounts from './UserAccounts'
+import EmailAccounts from './EmailAccounts'
 
 const accountsDetails = [
     {
@@ -22,7 +21,11 @@ const accountsDetails = [
         email:'uwemneku@gmail.com'
     },
 ]
-
+/**
+ * This component shows the modal to switch email accounts
+ * @param {object} props
+ * @param {Function} props.close A callback function to close the modal
+*/
 const AccountsModal = ({close}) => {
     return (
             <Modal
@@ -37,7 +40,7 @@ const AccountsModal = ({close}) => {
                             accountsDetails.map((item, index) => (
                                 <View key={index} >
                                     <TouchableOpacity style={{paddingHorizontal:10}} onPress={close} >
-                                        <UserAccounts />
+                                        <EmailAccounts />
                                     </TouchableOpacity>
                                     { (accountsDetails.length !== (index + 1)) && <Divider bgcolor='gray' verticalMargin={10} />}
                                 </View>

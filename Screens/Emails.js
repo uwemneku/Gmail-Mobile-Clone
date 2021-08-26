@@ -1,21 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useAnimatedScrollHandler, withSpring } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useAnimatedScrollHandler } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import EmailSnippet from '../componenets/EmailSnippet'
-import SecondaryHeader from '../componenets/SecondaryHeader';
+import SelectedHeader from '../componenets/SelectedHeader';
 import PrimaryHeader from '../componenets/PrimaryHeader';
-import Typography from '../componenets/Typography';
-import { Ionicons } from '@expo/vector-icons';
 import { PortalHost, PortalProvider } from '@gorhom/portal';
+import FAB from '../componenets/FAB';
 
 
 const Emails = () => {
     const allEmails = useSelector(state => state.recievedEmailSlice.value)
-    const [emails, setEmails] = useState(allEmails)
     const translateY = useSharedValue(0)
     const FABwidth = useSharedValue(0)
-    const animateValue = useSharedValue(0)
     const clamp = (value, lowerBound, upperBound) => {
         "worklet";
         return Math.min(Math.max(lowerBound, value), upperBound);
@@ -30,16 +27,7 @@ const Emails = () => {
                     )
         }]
     }))
-    const animatedFABstyle = useAnimatedStyle(()=>({
-        width: withSpring(FABwidth.value > 40 ? 50 : 200),
-        paddingHorizontal: FABwidth.value > 40 ? 0 : 20,
-    }))
-    const animatedFABTextstyle = useAnimatedStyle(()=>({
-        marginRight: withSpring(FABwidth.value > 40 ? -100 : 0),
-        marginLeft: withSpring(FABwidth.value > 40 ? 20 : 0),
-    }))
-   
-
+  
     const scrollhandler = useAnimatedScrollHandler({
         onScroll: (event, ctx) => {
             const diff = event.contentOffset.y - ctx.prevY;
@@ -55,15 +43,11 @@ const Emails = () => {
         
     })
    
-   
-
-    
-
     return (
         <View style={styles.container}  >
         <PortalProvider>
-            <View style={{position:'absolute', width:'100%', zIndex:3000000}}>
-                <SecondaryHeader />
+            <View style={[styles.header, {zIndex:42}]}>
+                <SelectedHeader />
             </View>
             <Animated.View style={[styles.header, animatedHeaderStyle]}>
                 <PrimaryHeader />
@@ -72,13 +56,14 @@ const Emails = () => {
                 <FlatList 
                     style={{flex:1}}
                     renderScrollComponent= {(props) => 
+                        // This allows us to use 'useAnimatedScrollHandler' to handle animations that are dependent on scrolling
                         <Animated.ScrollView {...props} 
                             contentContainerStyle={{paddingTop:60, paddingBottom: 100,}} 
                             onScroll={scrollhandler}  
                         />
                         }
                     data={allEmails}
-                    renderItem = {({item, index}) => {
+                    renderItem = {({item}) => {
                         if(!item.archived){
                             return (
                                 <EmailSnippet 
@@ -99,12 +84,7 @@ const Emails = () => {
                 />
             </View>
             <View style={styles.floatingItems}>
-                <Animated.View style={[styles.FAB, animatedFABstyle]} >
-                    <Ionicons name="menu" size={24} color="black" />
-                    <Animated.View style={[animatedFABTextstyle]} >
-                        <Typography text='Compose' textAlign='right' />
-                    </Animated.View>
-                </Animated.View>
+                <FAB animatedValue={FABwidth} />
                 <PortalHost name="FAB" />
             </View>
         </PortalProvider>
@@ -124,7 +104,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         width:'100%',
         backgroundColor:'white',
-        zIndex:400,
+        zIndex:40,
     },
     floatingItems:{
         width:'100%',
@@ -134,17 +114,5 @@ const styles = StyleSheet.create({
         overflow:'hidden',
         zIndex:400000,
     },
-    FAB:{
-        right:20,
-        height:50,
-        elevation:5,
-        marginVertical:10,
-        borderRadius:100,
-        overflow:'hidden',
-        alignItems:'center',
-        flexDirection:'row',
-        backgroundColor:'white',
-        justifyContent:'space-between'
 
-    }
 })

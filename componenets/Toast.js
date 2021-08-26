@@ -5,13 +5,13 @@ import Typography from './Typography'
 import {archiveMail} from '../reducers/recievedEmailSlice'
 import { useDispatch } from 'react-redux'
 
-/**
+/** This renders a toast message when an email is achivered
  * @param {object} props
  * @param {Animated.SharedValue<number>} props.xValue Animated value of the EmailSnippet componenet that was swiped
  * @param {Animated.SharedValue<number>} props.yValue Animated value of the EmailSnippet componenet that was swiped
  * @param {string} props.id ID of the email of the EmailSnippet component 
 */
-const Toast = ({xValue, yValue, id}) => {
+const Toast = ({xValue, yValue, id, toggleToast}) => {
     const [message, setMessage] = useState('Email has been achrived')
     const dispact = useDispatch()
     const translateY = useSharedValue(0)
@@ -34,9 +34,13 @@ const Toast = ({xValue, yValue, id}) => {
   
     useEffect(() => {
         translateY.value = 1;
+        const timer = setTimeout(() => {
+            toggleToast(false)
+        }, 2000);
         return () => {
             //This action changes the acrchive state of the email and unmount its Emailsnippet component
             !isUndoClicked.current && dispact(archiveMail(id))
+            clearTimeout(timer)
         }
     }, [])
  

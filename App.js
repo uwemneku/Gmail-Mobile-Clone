@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -12,10 +12,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <View style={styles.container} >
-          {/* <RootNavigator /> */}
-          <DrawerNavigation />
-        </View>
+          <SafeAreaView style={styles.container}  > 
+            <DrawerNavigation />
+          </SafeAreaView>
       </NavigationContainer>
     </Provider>
   );

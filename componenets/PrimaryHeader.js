@@ -5,12 +5,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import UserAvatar from './UserAvatar';
 
+/**
+ * This is the header shown at the top of the Mail Screen
+*/
 const PrimaryHeader = () => {
     const navigation = useNavigation()
     return (
         <View style={styles.container} >
              <View style={styles.main}>
-                <TouchableOpacity onPress={()=>{navigation.openDrawer(); console.log('trying ')}} >
+                <TouchableOpacity onPress={()=>{navigation.openDrawer()}} >
                     <Ionicons name="menu" size={24} color="black" />
                 </TouchableOpacity>
                 <UserAvatar />

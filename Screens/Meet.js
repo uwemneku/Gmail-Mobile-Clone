@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import AnimatedLottieView from 'lottie-react-native';
 import lottieFile from '../lottie/coming soon.json'
+import UserAvatar from '../componenets/UserAvatar';
 
 const Meet = () => {
     const navigation = useNavigation()
@@ -17,7 +18,7 @@ const Meet = () => {
                         <Ionicons name="menu" size={30} color="black" />
                     </Pressable>
                     <Typography text="Meet" fontSize={20} />
-                    <Avatar size={30}/>
+                    <UserAvatar />
                 </View>
             {/* Header ends here */}
 

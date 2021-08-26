@@ -5,12 +5,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux';
 import Typography from '../componenets/Typography';
 import Divider from './../componenets/Divider';
+import { Ionicons } from '@expo/vector-icons';
 
 const data = [
     {
         name:'',
         list: [
-            {name:'All Inboxes', action:'', icon:'', count:0}
+            {name:'All Inboxes', action:'', icon:'album-outline', count:0}
         ]
     },
     {
@@ -50,9 +51,9 @@ function CustomDrawerContent(props) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     return (
-      <DrawerContentScrollView {...props}>
-          <View style={{padding:10, marginVertical:20}} >
-            <Typography text='GMAIL' fontSize={20} bold />
+      <DrawerContentScrollView showsVerticalScrollIndicator={false} {...props}>
+          <View style={{padding:10, marginVertical:10}} >
+            <Typography text='GMAIL' fontSize={18} bold />
           </View>
           <Divider />
           {
@@ -63,7 +64,8 @@ function CustomDrawerContent(props) {
                             item.name !== '' && 
                             <View style={{padding:10}} >
                                 <Typography 
-                                    bold 
+                                    bold
+                                    fontSize={16} 
                                     text={item.name} 
                                 />
                             </View>
@@ -71,7 +73,13 @@ function CustomDrawerContent(props) {
                           {
                               item.list.map(link => {
                                   return (
-                                      <DrawerItem key={link.name}  label={link.name} onPress={() => props.navigation.closeDrawer()} />
+                                      <DrawerItem 
+                                        key={link.name}   
+                                        label={link.name} 
+                                        onPress={() => props.navigation.closeDrawer()} 
+                                        icon ={({ focused, color, size }) => <Ionicons color={color} size={size} name={focused ? 'heart' : 'heart-outline'} />}
+                                        labelStyle={{marginLeft:-20}}
+                                      />
                                   )
                               })
                           }

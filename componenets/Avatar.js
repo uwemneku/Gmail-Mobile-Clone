@@ -1,11 +1,14 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
-import {Pressable, StyleSheet, Image, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Image, View} from 'react-native';
 import Typography from './Typography';
 
 /**
- * {Object} props
- * {Number} props.size
+ * @param {Object} props
+ * @param {Number} props.size The size of the avatar
+ * @param {imageUri} props.imageUri The URI of he image to display
+ * @param {string} props.text The text to displat if uri is missing
+ * @param {string} props.bgColor The bacground color of the avatar. This is only visible when the componenet has no URI
 */
  function Avatar({size=50, imageUri, text, bgColor='grey'}) {
   const [avatarUri, setUserAvatarUri] = useState(null)

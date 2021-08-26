@@ -20,8 +20,9 @@ const RootNavigator = () => {
     return (
         <MainNavigation.Navigator
             screenOptions= {{
-                headerShown:false
+                headerShown:false,
             }}
+            
         >
             {
                 Screens.map((item, index) => {
