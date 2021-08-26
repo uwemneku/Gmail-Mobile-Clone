@@ -19,6 +19,40 @@ This is a simple clone of gmail andriod mobile application built with react nati
 - [ ] Add buttom sheet component to the MEET screen without using any NPM packages
 -[ ] Animate primary header when search bar is clicked
 
+## Issues
+- [ ] On the 'Email' screen, if the user scrolls continuously in oposite directions, the PrimaryHeader component does not appear. Here's why.
+
+In other for the primary header componenet to be visible when we scroll down from any where in the screen we need to clamp the animated value between a lowerbound and upperbound
+
+For unknown reasons diffclamp from reanimated 2 crashes so the function below is used to implement that function as advice [here](https://stackoverflow.com/questions/68380161/how-to-use-diffclamp-in-reanimated-2). 
+
+```js
+   const clamp = (value, lowerBound, upperBound) => {
+        "worklet";
+        return Math.min(Math.max(lowerBound, value), upperBound);
+      };
+```
+For the function above to work the lowerbound is dependent on the scrollView content offset as seen below which is gotten as soon as the scroll starts. (Read why on the [official react native docs](https://reactnative.dev/docs/animated#diffclamp))
+
+```js
+     const scrollhandler = useAnimatedScrollHandler({
+        onScroll: (event, ctx) => {
+            const diff = event.contentOffset.y - ctx.prevY;
+            translateY.value = clamp(translateY.value + diff, 0, 70);
+
+            FABwidth.value = event.contentOffset.y
+    
+        },
+        onBeginDrag: (event, ctx) => {
+            ctx.prevY = event.contentOffset.y;
+        },
+
+        
+    })
+```
+
+If we change directions while scrolling without lifting our hand, the onBeginDrag event is not fired therefore lowerBound value is not changed so the Primary header component does not show. But if we lift our hand before changing direction, lowerbound value is changed because 'onBeginDrag' event is fired.
+
 ## Helpful videos and articles:
 
 
