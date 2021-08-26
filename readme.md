@@ -4,9 +4,10 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-This is a simple clone of gmail andriod mobile application built with react native
+This is a simple clone of gmail andriod mobile application built with react native. The aim of this project is to make an attempt use react native to implement some of the app features such as 'swiping an email to archive it', 'animating a component when an email is selected', 'custom drawer contents' and many more.
 
 ## Feautures
+### The ones without a tick are yet to be implemented
 - [X] Users can swipe emails to archive it
 - [X] Emails snippets is animated back in when undo is clicked
 - [X] Email can be selected by long pressing
