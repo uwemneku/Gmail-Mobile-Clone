@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, BackHandler, Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { LongPressGestureHandler,  PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import {deselectEmail, selectEmail } from '../reducers/selectEmailsSlice'
+import {deselectEmail, disableEmailSelection, selectEmail } from '../reducers/selectEmailsSlice'
 import {unStarMail, starMail} from '../reducers/recievedEmailSlice'
 import EmailAvatar from './EmailAvatar'
 import Typography from './Typography'
@@ -14,6 +14,7 @@ import { Portal } from '@gorhom/portal'
 import LottieView from 'lottie-react-native'
 import archiveLottie from '../lottie/archive.json'
 import { useNavigation } from '@react-navigation/native'
+import Star from './Star'
 
 const halfScreenWidth = Dimensions.get('window').width / 2.5
 const fullScreenWidth = Dimensions.get('window').width
@@ -29,7 +30,7 @@ const fullScreenWidth = Dimensions.get('window').width
  * @param {string} props.starred
  * @param {string} props.archived
 */
-const EmailSnippet = ({id, name, subject, preview, time, selected, starred, archived}) => {
+const EmailSnippet = ({data}) => {
     const [isSelected, setIsSelected] = useState(false)
     const [toastVisibility, setToastVisibility] = useState(false)
     const canSelectEmails = useSelector(state => state.selectEmailSlice.value) // Controls if an email can be selected by pressing the email avatart
@@ -83,12 +84,20 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
     }
 
     const handleIconPress = () => {
-        starred ? dispatch(unStarMail(id)) : dispatch(starMail(id))
+        data.starred ? dispatch(unStarMail(data.id)) : dispatch(starMail(data.id))
     }
 
     useEffect(() => {
-       isSelected ? dispatch(selectEmail(id)) : dispatch(deselectEmail(id))
+        console.log(isSelected);
+       isSelected ? dispatch(selectEmail(data.id)) : dispatch(deselectEmail(data.id))
     }, [isSelected])
+    
+    useEffect(() => {
+        !canSelectEmails && setIsSelected(false)
+    }, [canSelectEmails])
+
+
+    
    
     useEffect(() => {
         console.log('mounted');
@@ -144,28 +153,22 @@ const EmailSnippet = ({id, name, subject, preview, time, selected, starred, arch
 
                             {/* Begining of email details */}
                             <TouchableOpacity onPress={()=>navigation.navigate('ViewEmail')} style={{padding:10,}} >
-                                <Typography  text={name} bold />
-                                <Typography  text={subject} bold fontSize={14} />
-                                <Typography  text={preview} fontSize={12}  />
+                                <Typography  text={data.name} bold />
+                                <Typography  text={data.subject} bold fontSize={14} />
+                                <Typography  text={data.preview} fontSize={12}  />
                             </TouchableOpacity>
                             {/* End of email details*/}
                             
                             {/* Time and star icon starts here */}
                             <View style={{height:'100%', padding: 10, paddingVertical: 5, alignItems: 'center', justifyContent: 'space-between'}}>
-                                <Typography  text={time} fontSize={12}  />
-                                <Pressable onPress={handleIconPress} >
-                                    <Ionicons 
-                                        name={starred ? "star-sharp":"star-outline"} 
-                                        size={20} 
-                                        color={starred ? "gold" : "black"} 
-                                    />
-                                </Pressable>
+                                <Typography  text={data.time} fontSize={12}  />
+                                <Star isStarred={data.starred} id={data.id} />
                             </View>
                             {/* Time and start icon ends here */}
                         </Animated.View>
                         <Portal hostName="FAB" >
                             {/* The component is show in the parent portal provider (in Emails component) */}
-                            { toastVisibility && <Toast toggleToast={setToastVisibility} id={id} xValue={x} yValue={y} />   }  
+                            { toastVisibility && <Toast toggleToast={setToastVisibility} id={data.id} xValue={x} yValue={y} />   }  
                         </Portal>
                     </View>
                 </LongPressGestureHandler>

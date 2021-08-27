@@ -7,7 +7,7 @@ export const slice = createSlice({
             {   
                 id:'1',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -19,7 +19,7 @@ export const slice = createSlice({
             {   
                 id:'2',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -31,7 +31,7 @@ export const slice = createSlice({
             {   
                 id:'3',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -43,7 +43,7 @@ export const slice = createSlice({
             {   
                 id:'4',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -55,7 +55,7 @@ export const slice = createSlice({
             {   
                 id:'5',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -67,7 +67,7 @@ export const slice = createSlice({
             {   
                 id:'6',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -79,7 +79,7 @@ export const slice = createSlice({
             {   
                 id:'7',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -91,7 +91,7 @@ export const slice = createSlice({
             {   
                 id:'8',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,
@@ -103,7 +103,7 @@ export const slice = createSlice({
             {   
                 id:'9',
                 time:'05:08',
-                sender:'Uwem Israel',
+                name:'Uwem Israel',
                 unread: true,
                 details: 'lorem',
                 selected: false,

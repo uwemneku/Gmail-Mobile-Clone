@@ -1,22 +1,35 @@
-import React from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { BackHandler, FlatList, StyleSheet, View } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useAnimatedScrollHandler } from 'react-native-reanimated';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EmailSnippet from '../componenets/EmailSnippet'
 import SelectedHeader from '../componenets/SelectedHeader';
 import PrimaryHeader from '../componenets/PrimaryHeader';
 import { PortalHost, PortalProvider } from '@gorhom/portal';
 import FAB from '../componenets/FAB';
+import { disableEmailSelection } from '../reducers/selectEmailsSlice';
 
 
 const Emails = () => {
     const allEmails = useSelector(state => state.recievedEmailSlice.value)
     const translateY = useSharedValue(0)
     const FABwidth = useSharedValue(0)
+    const dispatch = useDispatch()
     const clamp = (value, lowerBound, upperBound) => {
         "worklet";
         return Math.min(Math.max(lowerBound, value), upperBound);
       };
+
+      useEffect(() => {
+        const backAction = () => {
+          dispatch(disableEmailSelection())
+          
+        };
+    
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    
+        return () => backHandler.remove();
+      }, []);
    
     const animatedHeaderStyle = useAnimatedStyle(()=>({
         transform: [{
@@ -67,14 +80,7 @@ const Emails = () => {
                         if(!item.archived){
                             return (
                                 <EmailSnippet 
-                                    id={item.id} 
-                                    name={item.sender}
-                                    subject={item.subject}
-                                    preview={item.preview}
-                                    time={item.time}
-                                    selected={item.selected}
-                                    starred={item.starred}
-                                    archived = {item.archived}
+                                    data={item}
                                 />
                             )
                         }
