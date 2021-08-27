@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Avatar from './Avatar'
+import { Ionicons } from '@expo/vector-icons';
 
 
 /**
@@ -39,7 +40,10 @@ const EmailAvatar = ({isSelected}) => {
                             <Avatar size={50} />
                         </Animated.View>
                         <View style={[styles.content]} >
-                            <Avatar size={50} text='loo' bgColor='white' />
+                            
+                            <Avatar size={50} bgColor='white' 
+                                 text={<Ionicons name="checkmark-sharp" size={24} color="black" />}
+                            />
                         </View>
                 </View>
             </Animated.View>

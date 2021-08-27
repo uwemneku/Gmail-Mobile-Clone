@@ -6,11 +6,15 @@
 ## About The Project
 This is a simple clone of gmail andriod mobile application built with react native. The aim of this project is to make an attempt use react native to implement some of the app features such as 'swiping an email to archive it', 'animating a component when an email is selected', 'custom drawer contents' and many more.
 
+Scan the bar code below to open the app on Expo go
+![barcode][barcode]
+
 ## Feautures
 
-- [X] Users can swipe emails to archive it
-- [X] Emails snippets is animated back in when undo is clicked
+- [X] Swipe to archive and undo action
+  ![swipe-to-archive][undo]
 - [X] Email can be selected by long pressing
+  ![select-mail][select]
 - [X] Lottied animation files
 
 ## Todo
@@ -146,7 +150,10 @@ Your Name - [uwemneku](https://twitter.com/uwemneku) - uwemneku@gmail.com
 [license-url]: https://www.linkedin.com/in/uwemisrael/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: screenshots/1.jpg
+[barcode]: screenshots/barCode.png
+[swipe]: screenshots/swipe.gif
+[undo]: screenshots/undo.gif
+[select]: screenshots/select.gif
 [product-screenshot1]: screenshots/2.jpg
 
 

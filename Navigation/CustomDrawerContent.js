@@ -11,28 +11,28 @@ const data = [
     {
         name:'',
         list: [
-            {name:'All Inboxes', action:'', icon:'album-outline', count:0}
+            {name:'All Inboxes', action:'', icon:'albums-outline', count:0}
         ]
     },
     {
         name:'',
         list: [
-            {name:'Primary', action:'', icon:'', count:0},
-            {name:'Social', action:'', icon:'', count:0},
-            {name:'Promotions', action:'', icon:'', count:0},
+            {name:'Primary', action:'', icon:'albums', count:0},
+            {name:'Social', action:'', icon:'people-outline', count:0},
+            {name:'Promotions', action:'', icon:'pricetag-outline', count:0},
         ]
     },
     {
         name:'ALL LABELS',
         list: [
-            {name:'Starred', action:'', icon:'', count:0},
-            {name:'Snoozed', action:'', icon:'', count:0},
-            {name:'Important', action:'', icon:'', count:0},
-            {name:'Sent', action:'', icon:'', count:0},
-            {name:'Scheduled', action:'', icon:'', count:0},
-            {name:'Outbox', action:'', icon:'', count:0},
-            {name:'Draft', action:'', icon:'', count:0},
-            {name:'All mail', action:'', icon:'', count:0},
+            {name:'Starred', action:'', icon:'star-sharp', count:0},
+            {name:'Snoozed', action:'', icon:'timer-outline', count:0},
+            {name:'Important', action:'', icon:'alert-circle-outline', count:0},
+            {name:'Sent', action:'', icon:'send-outline', count:0},
+            {name:'Scheduled', action:'', icon:'time-outline', count:0},
+            {name:'Outbox', action:'', icon:'open-outline', count:0},
+            {name:'Draft', action:'', icon:'document-outline', count:0},
+            {name:'All mail', action:'', icon:'albums', count:0},
             {name:'Spam', action:'', icon:'', count:0},
             {name:'Bin', action:'', icon:'', count:0},
         ]
@@ -77,13 +77,13 @@ function CustomDrawerContent(props) {
                                         key={link.name}   
                                         label={link.name} 
                                         onPress={() => props.navigation.closeDrawer()} 
-                                        icon ={({ focused, color, size }) => <Ionicons color={color} size={size} name={focused ? 'heart' : 'heart-outline'} />}
+                                        icon ={({ focused, color, size }) => <Ionicons color={color} size={size} name={link.icon !== '' ? link.icon : 'heart-outline'} />}
                                         labelStyle={{marginLeft:-20}}
                                       />
                                   )
                               })
                           }
-                          <Divider verticalMargin={10} />
+                          <Divider verticalMargin={5} />
                       </View>
                   )
               })
