@@ -11,11 +11,11 @@ Scan the bar code below to open the app on Expo go
 
 ## Feautures
 
-- [X] Swipe to archive and undo action
-  ![swipe-to-archive][undo]
-- [X] Email can be selected by long pressing
-  ![select-mail][select]
-- [X] Lottied animation files
+- [X] Swipe to archive and undo archive action <br>
+  ![swipe-to-archive][undo] <br>
+- [X] Email can be selected by long pressing any of them <br>
+  ![swipe-to-archive][select] <br>
+- [X] Lottied animation files <br>
 
 ## Todo
 - [ ] When an email is opened users can view the next email by swipping left or right
