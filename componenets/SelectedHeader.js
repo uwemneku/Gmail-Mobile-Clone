@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -21,6 +21,10 @@ const SelectedHeader = () => {
                     [0, 1], [-100, 0],
                     Extrapolate.CLAMP)
     }))
+
+    const handlebackPress = () => {
+        dispatch(disableEmailSelection())
+    }
 
     /*
         This effect could be rewritten as 
@@ -53,7 +57,9 @@ const SelectedHeader = () => {
 
     return (
             <Animated.View View style={[styles.hidden, animtedHeaderStyle]}>
-                <Ionicons name="arrow-back-outline" size={24} color="black" />
+                <TouchableOpacity onPress={handlebackPress} >
+                    <Ionicons name="arrow-back-outline" size={24} color="black" />
+                </TouchableOpacity>
                 <Avatar  size={40} text={`${selectedEmails.length}`} />
             </Animated.View>
     )
@@ -74,5 +80,6 @@ const styles = StyleSheet.create({
         zIndex: 1,
         flexDirection:'row',
         justifyContent:'space-between',
+        alignItems:'center',
     }
 })
