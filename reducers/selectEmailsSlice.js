@@ -3,15 +3,15 @@ import {createSlice} from '@reduxjs/toolkit'
 export const slice = createSlice({
   name: 'selectEmailSlice',
   initialState: {
-    value:false,
+    isEnabled:false,
     selectedEmails:[],
   },
   reducers: {
     enableEmailSelection: (state) => {
-      state.value = true
+      state.isEnabled = true
     },
     disableEmailSelection: (state) => {
-      state.value =  false
+      state.isEnabled =  false
     },
     selectEmail: (state, action) => {
       state.selectedEmails.push(action.payload)

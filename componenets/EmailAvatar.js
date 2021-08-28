@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native'
 import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Avatar from './Avatar'
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { deselectEmail, selectEmail } from '../reducers/selectEmailsSlice';
 
 
 /**
@@ -10,11 +12,13 @@ import { Ionicons } from '@expo/vector-icons';
  * @param {object} propps 
  * @param {boolean} props.isSelected Indicates if the email snippet rendering this component is selected 
  */ 
-const EmailAvatar = ({isSelected}) => {
+const EmailAvatar = ({isSelected, id}) => {
     const animateValue = useSharedValue(0)
+    const dispatch = useDispatch()
     
     useEffect(() => {
       animateValue.value = isSelected ? 1 : 0
+      isSelected ? dispatch(selectEmail(id)) : dispatch(deselectEmail(id)) // add or remove from selected email array
     }, [isSelected])
     
     const animatedContainerStyle = useAnimatedStyle(()=>({

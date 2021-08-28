@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Modal, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
-import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withDecay, withTiming } from 'react-native-reanimated'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { disableEmailSelection, enableEmailSelection } from '../reducers/selectEmailsSlice'
-import Avatar from './Avatar'
+import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons';
-import { withDelay } from 'react-native-reanimated'
 import Typography from './Typography'
 import { useNavigation } from '@react-navigation/native'
 

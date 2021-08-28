@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, BackHandler, Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { LongPressGestureHandler,  PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
-import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import {deselectEmail, disableEmailSelection, selectEmail } from '../reducers/selectEmailsSlice'
-import {unStarMail, starMail} from '../reducers/recievedEmailSlice'
 import EmailAvatar from './EmailAvatar'
 import Typography from './Typography'
-import { Ionicons } from '@expo/vector-icons';
 import Toast from './Toast'
 import { Portal } from '@gorhom/portal'
 import LottieView from 'lottie-react-native'
@@ -22,19 +18,19 @@ const fullScreenWidth = Dimensions.get('window').width
 /**
  * This renders a snippet of the email on the Mail screen of the app.
  * @param {object} props
- * @param {string} props.id The ID of the email in the global store
- * @param {string} props.name
- * @param {string} props.subject
- * @param {string} props.preview A snippet of the mail body
- * @param {string} props.time
- * @param {string} props.starred
- * @param {string} props.archived
+ * @param {object} props.data 
+ * @param {string} props.data.id The ID of the email in the global store
+ * @param {string} props.data.name
+ * @param {string} props.data.subject
+ * @param {string} props.data.preview A snippet of the mail body
+ * @param {string} props.data.time
+ * @param {string} props.data.starred
+ * @param {string} props.data.archived
 */
 const EmailSnippet = ({data}) => {
     const [isSelected, setIsSelected] = useState(false)
     const [toastVisibility, setToastVisibility] = useState(false)
-    const canSelectEmails = useSelector(state => state.selectEmailSlice.value) // Controls if an email can be selected by pressing the email avatart
-    const dispatch = useDispatch()
+    const isEmailSelectionModeEnabled = useSelector(state => state.selectEmailSlice.isEnabled)
     const navigation = useNavigation()
     
     const x = useSharedValue(0)
@@ -49,26 +45,25 @@ const EmailSnippet = ({data}) => {
     const gestureHandler = useAnimatedGestureHandler({
         onStart: (_, ctx) => {
             ctx.startX = x.value;
-            ctx.initialState = isSelected 
+            ctx.initialState = isSelected // store the selection state
           },
 
         onActive: (event, ctx) => {
             x.value = ctx.startX + event.translationX;
-            runOnJS(setIsSelected)(false)
+            runOnJS(setIsSelected)(false) //unselect this component
         },
         
         onEnd: (_, ctx) => {
-            console.log(_.velocityX);
             if(x.value > halfScreenWidth || Math.abs(_.velocityX) > 1550){
-                const n = x.value > -1 ?  fullScreenWidth : -fullScreenWidth
-                x.value = withSpring(n, {overshootClamping:true});
+                const direction = x.value > -1 ?  fullScreenWidth : -fullScreenWidth // ensures vertical animation follows the direction of swipe 
+                x.value = withSpring(direction, {overshootClamping:true});
                 y.value = 1
-                runOnJS(toggleToast)()
+                runOnJS(toggleToast)() // show undo tast message
                 
             }
             else{
                 x.value = withSpring(0, {overshootClamping:true});
-                runOnJS(setIsSelected)(ctx.initialState)
+                runOnJS(setIsSelected)(ctx.initialState) // set selection back to the initial state
             }
             
             
@@ -80,30 +75,14 @@ const EmailSnippet = ({data}) => {
     }
 
     const handleAvatarClick = () => {
-        canSelectEmails && setIsSelected(!isSelected)
+        isEmailSelectionModeEnabled && setIsSelected(!isSelected) // only select wif selction mode is enabled
     }
-
-    const handleIconPress = () => {
-        data.starred ? dispatch(unStarMail(data.id)) : dispatch(starMail(data.id))
-    }
-
-    useEffect(() => {
-        console.log(isSelected);
-       isSelected ? dispatch(selectEmail(data.id)) : dispatch(deselectEmail(data.id))
-    }, [isSelected])
     
     useEffect(() => {
-        !canSelectEmails && setIsSelected(false)
-    }, [canSelectEmails])
-
+        !isEmailSelectionModeEnabled && setIsSelected(false) // This ensures that all selected emailSnippets are unselected whenever selection mode is disabled
+    }, [isEmailSelectionModeEnabled])
 
     
-   
-    useEffect(() => {
-        console.log('mounted');
-        return () => console.log('unmounted'); 
-    }, [])
-
     const animatedStyle = useAnimatedStyle(()=>({
         transform: [{translateX: withSpring(x.value)}],
         backgroundColor: withTiming(isSelected ? 'skyblue' : 'white', {duration:250})
@@ -113,7 +92,7 @@ const EmailSnippet = ({data}) => {
         height: withDelay(500, withTiming(interpolate(y.value, [0, 1], [80, 0], Extrapolate.CLAMP), {duration:100,  easing:Easing.ease}))
     }))
     
-    //actveOffsetX and activeOffsetY props are used to set when the pangesture is active
+    //actveOffsetX and activeOffsetY props are used to control when the pangesture should be active
     //This alows vertical gestures to be passed to the parent scroll componenet
     return (
         <PanGestureHandler  activeOffsetX={[-50, 50]} activeOffsetY={[-1000, 1000]}  onGestureEvent={gestureHandler}>
@@ -148,7 +127,7 @@ const EmailSnippet = ({data}) => {
 
                         <Animated.View style={[styles.snippet, animatedStyle]} >
                             <Pressable onPress={handleAvatarClick} style={{alignItems:'center'}} >
-                                <EmailAvatar isSelected={isSelected} />
+                                <EmailAvatar isSelected={isSelected} id={data.id}  />
                             </Pressable>
 
                             {/* Begining of email details */}
@@ -166,8 +145,9 @@ const EmailSnippet = ({data}) => {
                             </View>
                             {/* Time and start icon ends here */}
                         </Animated.View>
+
                         <Portal hostName="FAB" >
-                            {/* The component is show in the parent portal provider (in Emails component) */}
+                            {/* The component is show in a parent portal provider located in Emails component */}
                             { toastVisibility && <Toast toggleToast={setToastVisibility} id={data.id} xValue={x} yValue={y} />   }  
                         </Portal>
                     </View>

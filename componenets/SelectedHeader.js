@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 */
 const SelectedHeader = () => {
     const animateValue = useSharedValue(0)
-    const selectedEmails = useSelector(state => state.selectEmailSlice.selectedEmails)
+    const selectedEmailsArray = useSelector(state => state.selectEmailSlice.selectedEmails)
     const dispatch = useDispatch()
 
     const animtedHeaderStyle = useAnimatedStyle(()=>({
@@ -23,44 +23,25 @@ const SelectedHeader = () => {
     }))
 
     const handlebackPress = () => {
-        dispatch(disableEmailSelection())
+        dispatch(disableEmailSelection()) //disable selection mode
     }
 
-    /*
-        This effect could be rewritten as 
-        useEffect(() => {
-        if(selectedEmails.length === 0){
-            animateValue.value = withTiming(1, {duration:250})
-        }else{
-            animateValue.value = withTiming(0, {duration:250})
-        }
-         }, [selectedEmails])
-        
-        Thereby elimnating the need for the 'canSelectEmails' state and 
-        the second 'useEffect' statement but this would mean that we have to
-        subscribe all EmailAvatar component to the selectedEmails, these would 
-        cause the all EmailAvatar component to rerender when any one is selected.
-        
-        This way all EmailAvatar componenet are only rerendered when 'canSelectEmails' state changes
-        which happens with the dispact statement below 
-    */
     useEffect(() => {
-        console.log(selectedEmails);
-        if(selectedEmails.length === 0){
-            dispatch(disableEmailSelection())
-            animateValue.value = withTiming(0, {duration:250})
+        if(selectedEmailsArray.length === 0){
+            dispatch(disableEmailSelection()) // disable selection mode
+            animateValue.value = withTiming(0, {duration:250}) // move this component out of screen
         }else{
-            dispatch(enableEmailSelection())
-            animateValue.value = withTiming(1, {duration:250})
+            dispatch(enableEmailSelection()) // anable selection mode
+            animateValue.value = withTiming(1, {duration:250}) // move component into screen
         }
-    }, [selectedEmails])
+    }, [selectedEmailsArray])
 
     return (
             <Animated.View View style={[styles.hidden, animtedHeaderStyle]}>
                 <TouchableOpacity onPress={handlebackPress} >
                     <Ionicons name="arrow-back-outline" size={24} color="black" />
                 </TouchableOpacity>
-                <Avatar  size={40} text={`${selectedEmails.length}`} />
+                <Avatar  size={40} text={`${selectedEmailsArray.length}`} />
             </Animated.View>
     )
 }

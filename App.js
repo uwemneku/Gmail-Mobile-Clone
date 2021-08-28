@@ -10,18 +10,6 @@ import AccountsModal from './componenets/AccountsModal';
 
 export default function App() {
 
-  useEffect(() => {
-    const backAction = () => {
-      // setIsSelected(false)
-      
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
-    return () => backHandler.remove();
-  }, []);
-
   return (
     <Provider store={store}>
       <NavigationContainer>

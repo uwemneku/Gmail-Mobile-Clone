@@ -23,7 +23,7 @@ const Emails = () => {
       useEffect(() => {
         const backAction = () => {
           dispatch(disableEmailSelection())
-          
+          return true
         };
     
         const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
