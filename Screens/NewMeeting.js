@@ -67,10 +67,12 @@ export default function NewMeeting({open}) {
                                             text="Schedule in Google Calender"
                                             bold
                                         />
-                                        <Typography 
-                                            text="Close"
-                                            bold
-                                        />
+                                        <Pressable onPress={handleNavigation} >
+                                            <Typography 
+                                                text="Close"
+                                                bold
+                                            />
+                                        </Pressable>
                                     </View>
                                 </Animated.View>
                             </PanGestureHandler>
