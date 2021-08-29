@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import { LongPressGestureHandler,  PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { Easing, Extrapolate, interpolate, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from 'react-native-reanimated'
 import { useSelector } from 'react-redux'
@@ -26,8 +26,9 @@ const fullScreenWidth = Dimensions.get('window').width
  * @param {string} props.data.time
  * @param {string} props.data.starred
  * @param {string} props.data.archived
+ * @param {boolean} props.data.unread
 */
-const EmailSnippet = ({data}) => {
+const EmailSnippet = ({data, index}) => {
     const [isSelected, setIsSelected] = useState(false)
     const [toastVisibility, setToastVisibility] = useState(false)
     const isEmailSelectionModeEnabled = useSelector(state => state.selectEmailSlice.isEnabled)
@@ -131,15 +132,17 @@ const EmailSnippet = ({data}) => {
                             </Pressable>
 
                             {/* Begining of email details */}
-                            <TouchableOpacity onPress={()=>navigation.navigate('ViewEmail')} style={{padding:10,}} >
-                                <Typography  text={data.name} bold />
-                                <Typography  text={data.subject} bold fontSize={14} />
-                                <Typography  text={data.preview} fontSize={12}  />
+                            <TouchableOpacity onPress={()=>navigation.navigate('ViewEmail', {scrollPosition: index})} style={{padding:10, flex:1}} >
+                                <Typography  text={data.name} bold={data.unread} />
+                                <Typography  text={data.subject} bold={data.unread} fontSize={14} />
+                                <Text numberOfLines={1} ellipsizeMode='tail' >
+                                    {data.preview}
+                                </Text>
                             </TouchableOpacity>
                             {/* End of email details*/}
                             
                             {/* Time and star icon starts here */}
-                            <View style={{height:'100%', padding: 10, paddingVertical: 5, alignItems: 'center', justifyContent: 'space-between'}}>
+                            <View style={{height:'100%', padding: 0, paddingVertical: 5, alignItems: 'center', justifyContent: 'space-between'}}>
                                 <Typography  text={data.time} fontSize={12}  />
                                 <Star isStarred={data.starred} id={data.id} />
                             </View>
@@ -162,6 +165,7 @@ export default React.memo(EmailSnippet)
 const styles = StyleSheet.create({
     container:{
         overflow:'hidden',
+        width: Dimensions.get('screen').width
     },
     snippet:{
         flexDirection:'row',
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
         height:'100%',
         width:'105%',
         padding:10,
-        paddingHorizontal:30,
+        paddingHorizontal:20,
         borderRadius:10,
     },
     hiddenElement:{

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Pressable, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
 import {unStarMail, starMail} from '../reducers/recievedEmailSlice'
 import { Ionicons } from '@expo/vector-icons';

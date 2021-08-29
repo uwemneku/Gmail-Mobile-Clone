@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { Text } from 'react-native'
 
 /**
  * Componets for rendering text

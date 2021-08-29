@@ -76,11 +76,12 @@ const Emails = () => {
                         />
                         }
                     data={allEmails}
-                    renderItem = {({item}) => {
+                    renderItem = {({item, index}) => {
                         if(!item.archived){
                             return (
                                 <EmailSnippet 
                                     data={item}
+                                    index={index}
                                 />
                             )
                         }

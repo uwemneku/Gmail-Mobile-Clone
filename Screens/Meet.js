@@ -1,6 +1,5 @@
 import React from 'react'
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import Avatar from '../componenets/Avatar'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Typography from '../componenets/Typography'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +9,7 @@ import UserAvatar from '../componenets/UserAvatar';
 
 const Meet = () => {
     const navigation = useNavigation()
+
     return (
         <View style={{backgroundColor:'white', flex:1}} >
             {/* Header starts here */}
@@ -24,7 +24,9 @@ const Meet = () => {
 
             {/* Top buttons starts here */}
             <View style={styles.container} >
-                <TouchableOpacity activeOpacity={0.6} style={[styles.button, {backgroundColor:'blue'}]}>
+                <TouchableOpacity activeOpacity={0.6} style={[styles.button, {backgroundColor:'blue'}]}
+                    onPress = {() => navigation.navigate('NewMeeting')}
+                >
                     <Typography 
                         text='New meeting'
                         textAlign='center'
@@ -55,6 +57,7 @@ const Meet = () => {
                     />
                 </View>
             {/* Lottie file ends here */}
+
         </View>
     )
 }
