@@ -2,9 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
-    name:globalModals,
+    name:'globalModals',
     initialState:{
-        accounts:false,
+        newMeeting:false,
         loading:false
     },
     reducers: {

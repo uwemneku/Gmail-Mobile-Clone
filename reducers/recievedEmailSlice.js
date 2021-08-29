@@ -25,14 +25,14 @@ export const slice = createSlice({
                 selected: false,
                 starred:false,
                 subject: 'This is a mock email',
-                preview: 'This app was created with react native',
+                preview: 'Very very long text are cut off and given a trailling end',
                 archived: false,
             },
             {   
                 id:'3',
                 time:'05:08',
                 name:'Uwem Israel',
-                unread: true,
+                unread: false,
                 details: 'lorem',
                 selected: false,
                 starred:false,
@@ -61,7 +61,7 @@ export const slice = createSlice({
                 selected: false,
                 starred:false,
                 subject: 'This is a mock email',
-                preview: 'This app was created with react native',
+                preview: 'Very very long text are cut off and given a trailling end',
                 archived: false,
             },
             {   
@@ -85,7 +85,7 @@ export const slice = createSlice({
                 selected: false,
                 starred:false,
                 subject: 'This is a mock email',
-                preview: 'This app was created with react native',
+                preview: 'Very very long text are cut off and given a trailling end',
                 archived: false,
             },
             {   
@@ -147,7 +147,6 @@ export const slice = createSlice({
             const mailId = action.payload
             const index = state.value.findIndex(mail => mail.id == mailId)
             const mail = state.value[index]
-            console.log(mail);
             state.value.splice(index, 1, {...mail, starred:true})
             
         },
@@ -162,7 +161,6 @@ export const slice = createSlice({
             const index = state.value.findIndex(mail => mail.id == mailId)
             const mail = state.value[index]
             state.value.splice(index, 1, {...mail, archived:true})
-            console.log(state.value[index]);
         },
         unArchiveMail: (state, action) => {
             const mailId = action.payload

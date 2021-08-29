@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
 import BottomSheetNavigatior from './BottomSheetNavigatior'
-import EmailDetails from '../Screens/EmailDetails'
+import ViewEmails from '../Screens/ViewEmails'
+import NewMeeting from '../Screens/NewMeeting'
 
 const MainNavigation = createStackNavigator()
 
@@ -13,7 +14,11 @@ const Screens = [
     },
     {
         name:'ViewEmail',
-        component: EmailDetails
+        component: ViewEmails
+    },
+    {
+        name:'NewMeeting',
+        component: NewMeeting
     }
 ]
 const RootNavigator = () => {

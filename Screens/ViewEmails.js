@@ -1,42 +1,42 @@
-import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import React, { useEffect } from 'react'
+import { Dimensions, FlatList, StyleSheet, View } from 'react-native'
+import Animated, { useSharedValue } from 'react-native-reanimated'
 import { useAnimatedScrollHandler } from 'react-native-reanimated'
 import SecondaryHeader from '../componenets/SecondaryHeader'
-import Typography from '../componenets/Typography'
-import CFG from './CFG'
+import EmailContent from '../componenets/EmailContent'
 
-const EmailDetails = ({id}) => {
+const ViewEmails = ({id}) => {
     const navigation = useNavigation()
-    const tex = useSharedValue(0)
+    const {scrollPosition} = useRoute().params
+    const animatedValue = useSharedValue(0)
 
     const scrollHandler = useAnimatedScrollHandler({
         onScroll:(_, ctx) => {
-           tex.value = _.contentOffset.x
+           animatedValue.value = _.contentOffset.x
         }
     })
 
-    const style33 = useAnimatedStyle(()=>({
-        transform:[{translateY:tex.value}]
-    }))
 
-    
+    useEffect(() => {
+    }, [])
     return (
         <View>
             <SecondaryHeader />
             <View>
                 {
                     <FlatList
+                        horizontal={true}
+                        initialScrollIndex={scrollPosition}
                         data={new Array(10).fill(1)}
                         renderItem = {({item, index})=>(
 
-                                <CFG x={tex} i={index} />
+                                <EmailContent x={animatedValue} i={index} />
 
                         )}
                         keyExtractor={(item, index) => index.toString()}
                         renderScrollComponent = {(props)=>(
-                            <Animated.ScrollView {...props}  horizontal={true}  
+                            <Animated.ScrollView {...props}  
                                 snapToInterval={Dimensions.get('screen').width}
                                 decelerationRate={'normal'}
                                 disableIntervalMomentum={true}
@@ -55,7 +55,7 @@ const EmailDetails = ({id}) => {
     )
 }
 
-export default EmailDetails
+export default ViewEmails
 
 const styles = StyleSheet.create({
     ff:{

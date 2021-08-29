@@ -1,7 +1,7 @@
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux';
 import Typography from '../componenets/Typography';
 import Divider from './../componenets/Divider';
@@ -37,15 +37,6 @@ const data = [
             {name:'Bin', action:'', icon:'', count:0},
         ]
     },
-    {
-        name:'GOOGLE APPS',
-        list: [
-            {name:'Calender', action:'', icon:'',},
-            {name:'Contacts', action:'', icon:'',},
-            {name:'Settings', action:'', icon:'',},
-            {name:'Help and feedback', action:'', icon:'',},
-        ]
-    },
 ]
 function CustomDrawerContent(props) {
     const navigation = useNavigation()
@@ -76,7 +67,7 @@ function CustomDrawerContent(props) {
                                       <DrawerItem 
                                         key={link.name}   
                                         label={link.name} 
-                                        onPress={() => props.navigation.closeDrawer()} 
+                                        onPress={() => props.navigation.navigate('Mail')} 
                                         icon ={({ focused, color, size }) => <Ionicons color={color} size={size} name={link.icon !== '' ? link.icon : 'heart-outline'} />}
                                         labelStyle={{marginLeft:-20}}
                                       />
