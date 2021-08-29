@@ -4,6 +4,26 @@ import { View, StyleSheet, Dimensions, Pressable } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring} from 'react-native-reanimated'
 import Typography from '../componenets/Typography'
+import { Ionicons } from '@expo/vector-icons';
+
+
+const list = [
+    {
+        name: 'Get a meeting link to share',
+        icon:'link',
+        action: ''
+    },
+    {
+        name: 'Start an instant meeting',
+        icon:'videocam-outline',
+        action: ''
+    },
+    {
+        name: 'Schedule in Google Calender',
+        icon:'ios-calendar-outline',
+        action: ''
+    },
+]
 
 export default function NewMeeting({open}) {
     const animatedValue = useSharedValue(500)
@@ -55,23 +75,17 @@ export default function NewMeeting({open}) {
                                         <View style={{backgroundColor:'gray', width:50, height:10, borderRadius:20}} />
                                     </View>
                                     <View style={{padding:20, justifyContent:'space-around', height:200}} >
-                                        <Typography 
-                                            text="Get a meeting link to share"
-                                            bold
-                                        />
-                                        <Typography 
-                                            text="Start an instant meeting"
-                                            bold
-                                        />
-                                        <Typography 
-                                            text="Schedule in Google Calender"
-                                            bold
-                                        />
-                                        <Pressable onPress={handleNavigation} >
-                                            <Typography 
-                                                text="Close"
-                                                bold
-                                            />
+                                    {
+                                            list.map(item => (
+                                                <View key={item.name} style={styles.list} >
+                                                    <Ionicons name={item.icon} size={24} color="black" style={{paddingRight:20}} />
+                                                    <Typography text = {item.name} bold />
+                                                </View>
+                                            ))
+                                        }
+                                        <Pressable onPress={handleNavigation} style={styles.list}>
+                                            <Ionicons name='close' size={24} color="black" style={{paddingRight:20}} />
+                                            <Typography text="Close" bold />
                                         </Pressable>
                                     </View>
                                 </Animated.View>
@@ -91,6 +105,11 @@ const styles = StyleSheet.create({
     },
     text:{
         backgroundColor:'white',
-        paddingBottom:100,
+        paddingBottom:10,
+    },
+    list:{
+        paddingVertical:10,
+        flexDirection:'row',
+        alignItems:'center'
     }
 })

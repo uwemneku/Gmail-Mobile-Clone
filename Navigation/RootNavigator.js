@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 import BottomSheetNavigatior from './BottomSheetNavigatior'
 import ViewEmails from '../Screens/ViewEmails'
 import NewMeeting from '../Screens/NewMeeting'
+import JoinMetting from '../Screens/JoinMetting'
 
 const MainNavigation = createStackNavigator()
 
@@ -19,7 +20,11 @@ const Screens = [
     {
         name:'NewMeeting',
         component: NewMeeting
-    }
+    },
+    {
+        name:'JoinMetting',
+        component: JoinMetting
+    },
 ]
 const RootNavigator = () => {
     return (

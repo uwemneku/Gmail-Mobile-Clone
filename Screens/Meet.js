@@ -24,7 +24,9 @@ const Meet = () => {
 
             {/* Top buttons starts here */}
             <View style={styles.container} >
-                <TouchableOpacity activeOpacity={0.6} style={[styles.button, {backgroundColor:'blue'}]}
+                <TouchableOpacity 
+                    activeOpacity={0.6} 
+                    style={[styles.button, {backgroundColor:'blue'}]}
                     onPress = {() => navigation.navigate('NewMeeting')}
                 >
                     <Typography 
@@ -34,7 +36,11 @@ const Meet = () => {
                         color='white'
                         />
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.6} style={[styles.button, {borderWidth:1}]}>
+                <TouchableOpacity 
+                    activeOpacity={0.6} 
+                    style={[styles.button, {borderWidth:1}]}
+                    onPress = {() => navigation.navigate('JoinMetting')}
+                >
                     <Typography 
                         text='Join with a code'
                         textAlign='center'
